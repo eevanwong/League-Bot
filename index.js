@@ -14,7 +14,9 @@ for (const file of commandFiles) {
 
 
 const TOKEN = process.env.TOKEN;
+
 bot.login(TOKEN);
+
 
 bot.on('ready', () => {
   console.info(`${bot.user.tag} is online!`);
@@ -46,7 +48,6 @@ bot.on('message', msg => {
     let player = command.substring(6,command.length); 
     website('https://na.op.gg/summoner/userName='+player); 
     async function website(url) {
-      //let url = 'https://na.op.gg/summoner/userName='+player;
       console.log(url);
       const browser = await puppeteer.launch(); //initializes browser
       const page = await browser.newPage(); //new page
@@ -84,8 +85,14 @@ bot.on('message', msg => {
            {name: '\u200B', value: '\u200B', inline: true},
            {name: 'Win Ratio', value: ranktext[11], inline: true},
           )
-      msg.reply(statsEmbed);
+      msg.channel.send(statsEmbed);
+      await browser.close();
     }
+  } else {
+    msg.channel.send("That doesnt seem to be a command, check `!commands` for more info")
+    }  
+
+})
       /*
       await page.waitForSelector('#SummonerLayoutContent > div.tabItem.Content.SummonerLayoutContent.summonerLayout-summary > div.RealContent > div > div.Content > div.GameItemList > div:nth-child(1) > div > div.GameDetail > div > div.MatchDetailContent.tabItems > div.Content.tabItem.MatchDetailContent-overview > div > table.GameDetailTable.Result-WIN > tbody > tr.Row.last > td.Items.Cell');
 
@@ -98,9 +105,7 @@ bot.on('message', msg => {
     */
       
       
-        
-  } 
-})
+      
   
 
 
