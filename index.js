@@ -1,3 +1,4 @@
+const puppeteer = require('puppeteer')
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 const call = '-';
@@ -20,9 +21,6 @@ bot.on('ready', () => {
 
   bot.user.setActivity("Youtube", {type:"WATCHING"})
 
-  bot.guilds.forEach((guild) => {
-    console.log(guild.name)
-  })
 });
 
 bot.on('message', msg => {
@@ -42,30 +40,70 @@ bot.on('message', msg => {
     msg.reply(commandsEmbed);
   }
 
+  else if (command.startsWith('stats ')) 
+  //Check if player exists or if a string is even entered (check with puppeteer)
+  { 
+    let player = command.substring(6,command.length); 
+    website('https://na.op.gg/summoner/userName='+player); 
+    async function website(url) {
+      //let url = 'https://na.op.gg/summoner/userName='+player;
+      console.log(url);
+      const browser = await puppeteer.launch(); //initializes browser
+      const page = await browser.newPage(); //new page
+      
+      await page.goto(url); //inputs link into browser 
 
-  else if (command.substr(0,5) =="opgg ") { //hmm this doesnt really work
-    player = command.substr(4,command.length);
-    msg.channel.send(`https://na.op.gg/summoner/userName=${player}`)
-  }
+      
+      const rankinfo = await page.evaluate(() => document.querySelector('div.TierRankInfo').innerText) //checks if profile has a name, if not, then profile dne  
+      .catch((err) => {
+          msg.reply(player + " does not seem to exist")
+          console.log(player+'dne')
+          return
+        })
+      console.log(rankinfo);
+      const ranktext = rankinfo.split('\n').join(" ").split(" ");
+      console.log(ranktext);
 
-});
+      const nameinfo = await page.evaluate(() => document.querySelector('span.Name').innerText)
+      
+      const [rankicon] = await page.$x('/html/body/div[2]/div[3]/div/div/div[5]/div[2]/div[1]/div[1]/div/div[1]/img')
+                      //search this up
+      const ranksrc = await rankicon.getProperty('src'); //gets pic src
+      
+      const rankpic = await ranksrc.jsonValue(); //json value (search up json)
 
-/*
-client.on('message', msg => {
-  if (!msg.content.startsWith(prefix)) {
-    msg.reply(`${msg}`);
-  }
-});
-*/
-
-  /*
-  } else if (msg.content.startsWith('!kick')) {
-    if (msg.mentions.users.size) {
-      const taggedUser = msg.mentions.users.first();
-      msg.channel.send(`You wanted to kick: ${taggedUser.username}`);
-    } else {
-      msg.reply('Please tag  a valid user!');
+      const statsEmbed = new Discord.MessageEmbed()// difference between rich embed. message embed?
+        .setTitle(nameinfo)             
+        .setURL(url)
+        .setThumbnail(rankpic)
+        .addFields(
+           {name: 'Rank', value: ranktext[2] + " " + ranktext[3], inline : true},
+           {name: '\u200B', value: '\u200B', inline: true},
+           {name: 'League Points:', value: ranktext[4] + " "+  ranktext[5], inline: true },
+           {name: 'Wins/Loss', value: ranktext[7] +ranktext[6] + '/' + ranktext[8], inline: true},
+           {name: '\u200B', value: '\u200B', inline: true},
+           {name: 'Win Ratio', value: ranktext[11], inline: true},
+          )
+      msg.reply(statsEmbed);
     }
-  }
-});
+      /*
+      await page.waitForSelector('#SummonerLayoutContent > div.tabItem.Content.SummonerLayoutContent.summonerLayout-summary > div.RealContent > div > div.Content > div.GameItemList > div:nth-child(1) > div > div.GameDetail > div > div.MatchDetailContent.tabItems > div.Content.tabItem.MatchDetailContent-overview > div > table.GameDetailTable.Result-WIN > tbody > tr.Row.last > td.Items.Cell');
+
+      await page.waitFor(25);
+
+      const lastMatch = await page.$('#SummonerLayoutContent > div.tabItem.Content.SummonerLayoutContent.summonerLayout-summary > div.RealContent > div > div.Content > div.GameItemList > div:nth-child(1) > div');
+
+      await lastMatch.screenshot({path: 'match-history.png'});
+    }
+    */
+      
+      
+        
+  } 
+})
+  
+
+
+/*  
+})
 */
