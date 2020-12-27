@@ -3,7 +3,7 @@ const Discord = require("discord.js");
 const bot = new Discord.Client();
 const call = "-";
 require("dotenv").config();
-
+//note: If I want to run this with heroku then i need to show the token (gitignore will result in files not being read which are necessary for bot to run)
 /*
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
