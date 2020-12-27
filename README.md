@@ -21,3 +21,5 @@ Command uses Puppeteer to webscrap info by interacting with the page and getting
 ### -patchnotes [champion]
 
 Command uses Puppeteer to webscrape from leagues official pathnotes, it will look at the latest patchnotes and it will send back a pic of the changes
+
+![](img/lastpatch-command.png)
