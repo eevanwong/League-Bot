@@ -17,3 +17,7 @@ Command uses Puppeteer to webscrape ranked info from OP.GG's DOMs for the specif
 Command uses Puppeteer to webscrap info by interacting with the page and getting the most recent match of the player profile
 
 ![VISUAL:](img/match.png)
+
+### -patchnotes [champion]
+
+Command uses Puppeteer to webscrape from leagues official pathnotes, it will look at the latest patchnotes and it will send back a pic of the changes
