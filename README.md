@@ -23,3 +23,8 @@ Command uses Puppeteer to webscrap info by interacting with the page and getting
 Command uses Puppeteer to webscrape from leagues official pathnotes, it will look at the latest patchnotes and it will send back a pic of the changes
 
 ![](img/lastpatch-command.png)
+
+
+###FUTURE UPDATES
+- bot hosting w/ heroku 
+- For patch notes, bot will automatically puppeteeer the information, grab each change for champions, then store the images in database 
