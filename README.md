@@ -25,6 +25,6 @@ Command uses Puppeteer to webscrape from leagues official pathnotes, it will loo
 ![](img/lastpatch-command.png)
 
 
-###FUTURE UPDATES
+### -FUTURE UPDATES
 - bot hosting w/ heroku 
 - For patch notes, bot will automatically puppeteeer the information, grab each change for champions, then store the images in database 
