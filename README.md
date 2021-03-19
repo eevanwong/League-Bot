@@ -30,5 +30,4 @@ Command uses Puppeteer to webscrape from leagues official pathnotes, it will loo
 
 
 ## FUTURE UPDATES
-- bot hosting w/ heroku 
 - For patch notes, bot will locally store the images of the latest patch so that command responses are faster (each img path associated with an object w/ patch + champ)
